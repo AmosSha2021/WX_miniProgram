@@ -1,0 +1,15 @@
+<!--pages/login/login.wxml-->
+<text>登入页面</text>
+<view>
+<view>姓名：{{name}}</view>
+<view>年龄：{{age}}</view>
+<view>爱好：{{hobby}}</view>
+</view>
+
+<view>
+<view>姓名：{{userinfo.name}}</view>
+<view>年龄：{{userinfo.age}}</view>
+<view>爱好：{{userinfo.hobby}}</view>
+</view>
+
+<view>{{animals[0]}} ---{{animals[1]}} --- {{animals[2]}} </view>
