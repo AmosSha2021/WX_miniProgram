@@ -12,20 +12,20 @@
           "query": ""
         },
         {
-          "name": "商品列表",
-          "pathName": "pages/goods-list/index",
+          "name": "登入",
+          "pathName": "pages/login/login",
           "query": "",
           "scene": null
         },
         {
           "name": "云开发示例",
-          "pathName": "pages/examples/index",
+          "pathName": "pages/register/register",
           "query": "",
           "scene": null
         },
         {
           "name": "个人中心",
-          "pathName": "pages/user-center/index",
+          "pathName": "pages/userCenter/userCenter",
           "query": "",
           "scene": null
         }
@@ -33,6 +33,6 @@
     }
   },
   "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
-  "projectname": "weixin_miniProgram",
+  "projectname": "quickstart-wx-cloud",
   "libVersion": "3.7.10"
 }

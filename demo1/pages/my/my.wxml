@@ -1,3 +1,0 @@
-<!--pages/my/my.wxml-->
-<text>当前界面是在我的中</text>
-<view class="mIndex">全局wxss设置</view>

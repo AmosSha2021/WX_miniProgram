@@ -1,0 +1,33 @@
+<!--pages/register/register.wxml-->
+<!--pages/register/register.wxml-->
+<!--pages/login/login.wxml-->
+<!--pages/register/register.wxml-->
+<!-- <navigation-bar title="" back="{{true}}" color="white" background="#ffb241"/> -->
+
+
+<view class="login-container">
+
+<view class="logo-container">
+	<image class="logo" src="/images/logo.jpg" mode="heightFix" />
+</view>
+
+<view class="login-parent-container">
+	<text class="login-title-tips">注册</text>
+	<view class="login-username-container">
+		<image src="/images/userlogin.png" mode="" />
+		<input placeholder="请输入用户名" bindinput="eventUsernameHandle" />
+	</view>
+
+	<view class="login-password-container">
+		<image src="/images/password.png" mode="" />
+		<input placeholder="请输入密码" password="true" bindinput="eventPasswordHandle" />
+	</view>
+
+
+	<view class="login-btn-container"> <button bind:tap="onRegisterHandle">注册</button></view>
+
+
+</view>
+
+</view>
+
