@@ -6,6 +6,7 @@ map {
   height: 500rpx;
   /* 新增下边距 */
   margin-bottom: 10rpx;
+  margin-top: auto;
 }
 
 /* 按钮容器样式 */

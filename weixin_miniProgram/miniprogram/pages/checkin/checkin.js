@@ -16,14 +16,14 @@ Page({
     wx.getLocation({
       type: 'gcj02',
       success(res) {
-        that.setData({
+        this.setData({
           latitude: res.latitude,
           longitude: res.longitude,
           markers: [{
             id: 0,
             latitude: res.latitude,
             longitude: res.longitude,
-            iconPath: '/resources/icon.png',
+            iconPath: '/images/Marker.png',
             width: 30,
             height: 30
           }]
@@ -42,7 +42,7 @@ Page({
         const time = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ` + 
                     `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
         
-        that.setData({
+        this.setData({
           locationInfo: {
             latitude: res.latitude,
             longitude: res.longitude,
