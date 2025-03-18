@@ -1,66 +1,62 @@
-// pages/checkin/checkin.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    latitude: 23.099994,
+    longitude: 113.324520,
+    markers: [],
+    locationInfo: {}
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad() {
+    this.getLocation()
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  // 获取实时定位
+  getLocation() {
+    const that = this
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        that.setData({
+          latitude: res.latitude,
+          longitude: res.longitude,
+          markers: [{
+            id: 0,
+            latitude: res.latitude,
+            longitude: res.longitude,
+            iconPath: '/resources/icon.png',
+            width: 30,
+            height: 30
+          }]
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
+  // 打卡处理
+  handleCheckIn() {
+    const that = this
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        const date = new Date()
+        const time = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ` + 
+                    `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        
+        that.setData({
+          locationInfo: {
+            latitude: res.latitude,
+            longitude: res.longitude,
+            address: '正在解析地址...'
+          }
+        })
 
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+        // 显示打卡信息
+        wx.showModal({
+          title: `打卡成功 ${time}`,
+          content: `定位坐标：\n经度：${res.longitude}\n纬度：${res.latitude}`,
+          showCancel: false
+        })
+      }
+    })
   }
 })

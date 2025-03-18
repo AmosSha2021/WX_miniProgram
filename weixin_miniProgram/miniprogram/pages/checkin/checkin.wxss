@@ -1,1 +1,20 @@
 /* pages/checkin/checkin.wxss */
+
+/* 地图容器样式 */
+map {
+  width: 100%;
+  height: 500rpx;
+  /* 新增下边距 */
+  margin-bottom: 10rpx;
+}
+
+/* 按钮容器样式 */
+.btn-container {
+  padding: 40rpx;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  /* 新增上边距 */
+  margin-top: 10rpx;
+}

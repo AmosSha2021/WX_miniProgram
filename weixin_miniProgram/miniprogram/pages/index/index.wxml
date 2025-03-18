@@ -1,2 +1,28 @@
 <!--index.wxml-->
-<text>index page</text>
+<view class="myswiper">
+    <swiper
+    autoplay
+    indicator-dots
+    circular
+    indicator-color="#00000"
+    interval="2000"
+>
+    <swiper-item>
+        <image src="/images/banner/neza1.jpeg" mode="heightFix"/>
+    </swiper-item>
+    <swiper-item>
+        <image src="/images/banner/neza2.jpeg" mode="heightFix"/>
+    </swiper-item>
+    <swiper-item>
+        <image src="/images/banner/neza3.jpeg" mode="heightFix"/>
+    </swiper-item>
+</swiper>
+</view>
+
+<view class="tips">
+    <text class="iconfont icon-tishi1"></text>
+    <text>欢迎参加年度户外活动...</text>
+</view>
+<image src="/images/hiking.jpg" mode=""/>
+
+<button size="default" type="primary" plain="true" bind:tap="handle_signup">报名</button>

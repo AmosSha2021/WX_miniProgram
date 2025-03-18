@@ -5,3 +5,10 @@ page {
   padding-bottom: 60rpx;
   background-color: #fff;
 }
+.tips{
+  background-color: #F5EEDF; /*背景色*/
+  color: #e9ab4e;/*字体颜色*/
+  border-radius: 50rpx;  /*设置圆角*/
+  margin: 30rpx 10rpx 30rpx 10rpx;/*距离上下左右*/
+  padding-left: 100rpx;
+}
