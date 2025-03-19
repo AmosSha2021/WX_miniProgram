@@ -1,8 +1,3 @@
 {
-  "usingComponents": {},
-  "permission": {
-    "scope.userLocation": {
-      "desc": "需要获取您的位置以实现打卡功能"
-    }
-  }
+  "usingComponents": {}
 }

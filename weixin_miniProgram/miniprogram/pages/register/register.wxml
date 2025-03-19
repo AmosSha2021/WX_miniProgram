@@ -14,7 +14,7 @@
 <view class="login-parent-container">
 	<text class="login-title-tips">注册</text>
 	<view class="login-username-container">
-		<image src="/images/userlogin.png" mode="" />
+		<image src="/images/username.png" mode="" />
 		<input placeholder="请输入用户名" bindinput="eventUsernameHandle" />
 	</view>
 

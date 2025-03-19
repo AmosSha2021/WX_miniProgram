@@ -1,12 +1,16 @@
-// pages/userCenter/userCenter.js
+// 在Page对象中添加方法
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    userInfo: null // 确保已添加该数据字段
   },
+
+  // 补充完整的用户信息更新方法
+  updateUserInfo() {
+    const userInfo = wx.getStorageSync('userInfo');
+    console.log('当前用户信息：', userInfo); // 调试日志
+    this.setData({ userInfo });
+  },
+
  getOpenId(){
     wx.redirectTo({
       url: '/pages/login/login',
@@ -30,7 +34,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.updateUserInfo(); // 确保每次页面显示都更新数据
   },
 
   /**
@@ -64,7 +68,30 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage() {
+  // 新增客服对话框
+  showServiceDialog() {
+    wx.showModal({
+      title: '开发：太仓同维ATE',
+      content: '\n工作时间：9:00-18:00\n联系电话：400-123-4567',
+      showCancel: false,
+      confirmText: '知道了'
+    })
+  },
 
+  // 新增分享二维码功能
+  gotoWxCodePage() {
+    wx.previewImage({
+      urls: ['/images/qrcode.jpg'], // 请确保此路径存在小程序二维码图片
+      current: '/images/qrcode.jpg'
+    })
+  },
+
+  // 新增分享功能配置
+  onShareAppMessage() {
+    return {
+      title: '邀请您使用我们的微信小程序',
+      path: '/pages/index/index',
+      imageUrl: '../../images/share_qrcode.jpg' // 分享卡片显示的二维码缩略图
+    }
   }
 })

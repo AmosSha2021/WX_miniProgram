@@ -16,7 +16,7 @@ Page({
     wx.getLocation({
       type: 'gcj02',
       success(res) {
-        this.setData({
+        that.setData({
           latitude: res.latitude,
           longitude: res.longitude,
           markers: [{
@@ -42,7 +42,7 @@ Page({
         const time = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ` + 
                     `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
         
-        this.setData({
+        that.setData({
           locationInfo: {
             latitude: res.latitude,
             longitude: res.longitude,

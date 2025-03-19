@@ -9,7 +9,6 @@ Page({
       password: "",
       checked: false
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -70,9 +69,15 @@ Page({
         title: '登录成功',
         icon: 'success',
         success: () => {
+          // 新增用户信息存储
+          wx.setStorageSync('userInfo', {
+            username: this.data.username,
+            // 可以添加更多用户信息字段
+          });
+          
           setTimeout(() => {
-            wx.navigateTo({
-              url:"/pages/checkin/checkin"
+            wx.reLaunch({
+              url:"/pages/index/index"
             })
           }, 1000);
         }

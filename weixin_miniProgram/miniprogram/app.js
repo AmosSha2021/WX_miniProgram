@@ -1,4 +1,5 @@
 // app.js
+const QQMapWX = require('/utils/qqmap-wx-jssdk.min.js')
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -16,4 +17,10 @@ App({
 
     this.globalData = {};
   },
+  globalData:{
+    qqmapsdk: new QQMapWX({
+      key: '3ZUBZ-7E4KQ-T365J-BHOKQ-3UUEE-6UBZK ' 
+    })
+  }
+  
 });
