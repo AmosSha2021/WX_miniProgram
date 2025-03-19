@@ -22,7 +22,7 @@
         <view class="left">
           <image class="setting_icon" src="../../images/icons/customer-service.svg" />
           <button class="contact-button" bind:tap="showServiceDialog">
-            联系客服
+            联系开发
           </button>
         </view>
         <image class="arrow_icon" src="../../images/arrow.svg" />
@@ -30,7 +30,7 @@
       <view class="setting_item" bind:tap="gotoWxCodePage">
         <view class="left">
           <image class="setting_icon" src="../../images/icons/share.svg" />
-          <view class="setting_text">分享小程序</view>
+          <view class="setting_text">联系行政</view>
         </view>
         <image class="arrow_icon" src="../../images/arrow.svg" />
       </view>

@@ -80,18 +80,20 @@ Page({
 
   // 新增分享二维码功能
   gotoWxCodePage() {
-    wx.previewImage({
-      urls: ['/images/qrcode.jpg'], // 请确保此路径存在小程序二维码图片
-      current: '/images/qrcode.jpg'
-    })
+    wx.showModal({
+      title: '太仓同维行政',
+      content: '\n工作时间：9:00-18:00\n联系电话：400-123-4567',
+      showCancel: false,
+      confirmText: '知道了'
+    }) 
   },
 
   // 新增分享功能配置
   onShareAppMessage() {
-    return {
-      title: '邀请您使用我们的微信小程序',
-      path: '/pages/index/index',
-      imageUrl: '../../images/share_qrcode.jpg' // 分享卡片显示的二维码缩略图
-    }
+    // return {
+    //   title: '邀请您使用我们的微信小程序',
+    //   path: '/pages/index/index',
+    //   imageUrl: '../../images/share_qrcode.jpg' // 分享卡片显示的二维码缩略图
+    // }
   }
 })
