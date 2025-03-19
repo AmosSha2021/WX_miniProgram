@@ -1,0 +1,40 @@
+/* 新增用户详情样式 */
+.user-details {
+  margin-left: 40rpx;
+  flex: 1;
+}
+
+.employee-info {
+  margin-top: 30rpx;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin: 20rpx 0;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.info-item .icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 15rpx;
+}
+
+/* 调整未登录状态样式 */
+.username[wx:else] {
+  color: #999;
+  font-size: 32rpx;
+  margin-top: 20rpx;
+}
+
+/* 优化设置项间距 */
+.settings_container {
+  top: 180rpx;
+  padding: 0 30rpx;
+}
+
+.setting_item {
+  padding: 35rpx 0;
+}

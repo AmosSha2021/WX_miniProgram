@@ -1,117 +1,81 @@
-// pages/register/register.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-    username: "",
-    password: ""
+    division: "",
+    employeeID: "",
+    name: "",
+    password: "",
+    phoneNum: ""
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-  eventUsernameHandle(options) {
-    this.setData({
-      username: options.detail.value
-    })
-
+  eventDivisionHandle(e) {
+    this.setData({ division: e.detail.value });
   },
 
-
-  eventPasswordHandle(options) {
-    this.setData({
-      password: options.detail.value
-    })
+  eventEmployeeIDHandle(e) {
+    this.setData({ employeeID: e.detail.value });
   },
 
-    /**
-   * 注册
-   */
+  eventUsernameHandle(e) {
+    this.setData({ name: e.detail.value });
+  },
+
+  eventPasswordHandle(e) {
+    this.setData({ password: e.detail.value });
+  },
+
+  eventPhoneHandle(e) {
+    this.setData({ phoneNum: e.detail.value });
+  },
+
   onRegisterHandle() {
-    if (this.data.username.trim() === '') {
-      wx.showToast({
-        title: '请输入用户名',
-        icon: "error"
-      })
-      return
-    }
+    const requiredFields = [
+      { field: 'division', msg: '请输入部门' },
+      { field: 'employeeID', msg: '请输入工号' },
+      { field: 'name', msg: '请输入姓名' },
+      { field: 'password', msg: '请输入密码' },
+      { field: 'phoneNum', msg: '请输入手机号' }
+    ];
 
-    if (this.data.password.trim() === '') {
-      wx.showToast({
-        title: '请输入密码',
-        icon: "error"
-      })
-      return
-    }
-
-    //保存用户名和密码
-    wx.setStorageSync('username', this.data.username)
-    wx.setStorageSync('password', this.data.password)
-
-    wx.showToast({
-      title: '注册成功',
-      icon: 'success',
-      success: () => {
-          setTimeout(() => {
-            wx.navigateBack({
-              url:"/pages/login/login"
-            })
-          }, 1000);
+    for (let {field, msg} of requiredFields) {
+      if (!this.data[field]?.trim()) {
+        wx.showToast({ title: msg, icon: 'error' });
+        return;
       }
-    })
-  },
+    }
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
+    wx.showLoading({ title: '注册中...', mask: true });
 
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    wx.cloud.callFunction({
+      name: 'adduser',
+      data: {
+        userData: {
+          division: this.data.division.trim(),
+          employeeID: this.data.employeeID.trim(),
+          name: this.data.name.trim(),
+          password: this.data.password.trim(),
+          phoneNum: this.data.phoneNum.trim()
+        }
+      },
+      success: res => {
+        wx.hideLoading();
+        if (res.result.code === 200) {
+          wx.showToast({
+            title: '注册成功',
+            success: () => {
+              setTimeout(() => wx.navigateBack(), 1500);
+            }
+          });
+        } else if (res.result.code === 4001) {
+          wx.showToast({ title: '工号已存在', icon: 'error' });
+        } else {
+          wx.showToast({ title: '注册失败', icon: 'error' });
+        }
+      },
+      fail: err => {
+        wx.hideLoading();
+        console.error('云函数调用失败:', err);
+        wx.showToast({ title: '网络请求失败', icon: 'error' });
+      }
+    });
   }
-})
+});

@@ -13,16 +13,32 @@
 
 <view class="login-parent-container">
 	<text class="login-title-tips">注册</text>
+	
+	<!-- 新增的三个输入项 -->
 	<view class="login-username-container">
-		<image src="/images/username.png" mode="" />
-		<input placeholder="请输入用户名" bindinput="eventUsernameHandle" />
+		<image src="/images/division.png" />
+		<input placeholder="请输入部门" bindinput="eventDivisionHandle" />
+	</view>
+	
+	<view class="login-username-container">
+		<image src="/images/employeeID.png" />
+		<input placeholder="请输入工号" bindinput="eventEmployeeIDHandle" />
+	</view>
+	
+	<view class="login-username-container">
+		<image src="/images/username.png" />
+		<input placeholder="请输入姓名" bindinput="eventUsernameHandle" />
 	</view>
 
 	<view class="login-password-container">
-		<image src="/images/password.png" mode="" />
-		<input placeholder="请输入密码" password="true" bindinput="eventPasswordHandle" />
+		<image src="/images/password.png" />
+		<input placeholder="请输入登入密码" password bindinput="eventPasswordHandle" />
 	</view>
 
+	<view class="login-username-container">
+		<image src="/images/phone.png" />
+		<input placeholder="请输入手机号" type="number" bindinput="eventPhoneHandle" />
+	</view>
 
 	<view class="login-btn-container"> <button bind:tap="onRegisterHandle">注册</button></view>
 

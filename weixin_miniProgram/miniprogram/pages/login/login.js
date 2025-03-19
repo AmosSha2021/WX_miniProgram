@@ -1,152 +1,77 @@
-// pages/login/login.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-      username: "",
-      password: "",
-      checked: false
+    employeeID: "",
+    password: "",
+    checked: false
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
+
+  onLoad() {
     if (wx.getStorageSync("checked")) {
       this.setData({
-        username: wx.getStorageSync("username"),
-        password: wx.getStorageSync("password"),
-      })
-      this.setData({checked:wx.getStorageSync('checked')})
+        employeeID: wx.getStorageSync("employeeID") || "",
+        password: wx.getStorageSync("password") || "",
+        checked: true
+      });
     }
   },
 
-    /**
-   * 点击记住密码
-   */
-  checkboxChange(event) {
-    this.setData({
-      checked: event.detail.value
-    })
-    wx.setStorageSync('checked', this.data.checked)
-  },
-  eventUsernameHandle(options) {
-    this.setData({
-      username: options.detail.value
-    })
-
+  checkboxChange(e) {
+    this.setData({ checked: e.detail.value });
+    wx.setStorageSync('checked', e.detail.value);
   },
 
-
-  eventPasswordHandle(options) {
-    this.setData({
-      password: options.detail.value
-    })
+  eventEmployeeIDHandle(e) {
+    this.setData({ employeeID: e.detail.value });
   },
 
-  /**
-   * 登入
-   */
+  eventPasswordHandle(e) {
+    this.setData({ password: e.detail.value });
+  },
+
   onLoginHandle() {
-    if (this.data.username.trim() === '') {
-      wx.showToast({
-        title: '请输入用户名',
-        icon: "error"
-      })
-      return
+    const { employeeID, password } = this.data;
+    
+    if (!employeeID.trim()) {
+      wx.showToast({ title: '请输入工号', icon: 'error' });
+      return;
+    }
+    if (!password.trim()) {
+      wx.showToast({ title: '请输入密码', icon: 'error' });
+      return;
     }
 
-    if (this.data.password.trim() === '') {
-      wx.showToast({
-        title: '请输入密码',
-        icon: "error"
-      })
-      return
-    }
-    if (this.data.username === wx.getStorageSync("username") && this.data.password === wx.getStorageSync("password")) {
-      wx.showToast({
-        title: '登录成功',
-        icon: 'success',
-        success: () => {
-          // 新增用户信息存储
-          wx.setStorageSync('userInfo', {
-            username: this.data.username,
-            // 可以添加更多用户信息字段
-          });
+    wx.showLoading({ title: '登录中...', mask: true });
+    
+    wx.cloud.callFunction({
+      name: 'login',
+      data: { employeeID, password },
+      success: res => {
+        wx.hideLoading();
+        if (res.result.code === 200) {
+          // 存储登录信息
+          if (this.data.checked) {
+            wx.setStorageSync('employeeID', employeeID);
+            wx.setStorageSync('password', password);
+          }
           
-          setTimeout(() => {
-            wx.reLaunch({
-              url:"/pages/index/index"
-            })
-          }, 1000);
+          // 存储完整用户信息
+          const userInfo = res.result.data;
+          getApp().globalData.userInfo = userInfo;
+          wx.setStorageSync('userInfo', userInfo);
+
+          wx.reLaunch({ url: '/pages/index/index' });
+        } else {
+          wx.showToast({ title: res.result.message || '登录失败', icon: 'error' });
         }
-      })
-    } else {
-      wx.showToast({
-        title: '用户名或密码错误',
-        icon: 'error',
-
-      })
-    }
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showToast({ title: '网络请求失败', icon: 'error' });
+      }
+    });
   },
 
-    /**
-   * 注册
-   */
   onRegisterHandle() {
-
-    wx.navigateTo({
-      url: '/pages/register/register',
-    })
-  },
-  
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    wx.navigateTo({ url: '/pages/register/register' });
   }
-})
+});

@@ -112,3 +112,21 @@
 	background-color: #ffb241;
 	color: #ffffff;
 }
+
+
+/* 确保所有输入框样式统一 */
+.login-username-container input,
+.login-password-container input {
+    width: calc(100% - 60rpx);
+    margin-left: 20rpx;
+    font-size: 28rpx;
+}
+
+/* 手机号输入框去除右侧滚动条 */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

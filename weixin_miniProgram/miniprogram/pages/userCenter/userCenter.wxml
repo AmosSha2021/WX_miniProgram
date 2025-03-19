@@ -1,20 +1,26 @@
 <!--pages/userCenter/userCenter.wxml-->
-<!-- pages/me/index.wxml -->
 <view class="page_container">
   <view class="top_bg" />
   <view class="main_content">
     <!-- 修改用户信息展示部分 -->
-    <!-- 检查用户信息展示部分 -->
     <view class="userinfo_container">
       <block wx:if="{{userInfo}}">
-        <!-- 已登录状态 -->
         <image class="avatar" src="../../images/icons/avatar.png" mode="widthFix" />
-        <view class="username">{{userInfo.username}}</view>
+        <view class="user-details">
+          <!-- 增加wx:if条件判断 -->
+          <block wx:if="{{userInfo && userInfo.name}}">
+            <view class="username">{{userInfo.name}}</view>
+            <view>工号：{{userInfo.employeeID}}</view>
+            <view>部门：{{userInfo.division}}</view>
+          </block>
+          <block wx:else>
+            <!-- 未登录状态 -->
+          </block>
+        </view>
       </block>
       <block wx:else>
-        <!-- 未登录状态 -->
-        <image class="avatar" src="../../images/icons/avatar.png" bind:tap="getOpenId" mode="widthFix" />
-        <view class="username" bind:tap="getOpenId">请点击登录</view>
+        <image class="avatar" src="../../images/icons/avatar.png" bind:tap="gotoLogin" mode="widthFix" />
+        <view class="username" bind:tap="gotoLogin">请点击登录</view>
       </block>
     </view>
     <view class="settings_container">
@@ -36,5 +42,11 @@
       </view>
     </view>
   </view>
-  <cloud-tip-modal showTipProps="{{showTip}}" title="{{title}}" content="{{content}}" />
+  
+  <cloud-tip-modal 
+    showTipProps="{{showTip}}" 
+    title="{{title}}" 
+    content="{{content}}"
+    bind:close="() => setData({ showTip: false })"
+  />
 </view>

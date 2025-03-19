@@ -1,7 +1,10 @@
 // 在Page对象中添加方法
 Page({
   data: {
-    userInfo: null // 确保已添加该数据字段
+    userInfo: null, // 确保已添加该数据字段
+    showTip: false,
+    title: '',
+    content: ''
   },
 
   // 补充完整的用户信息更新方法
@@ -34,7 +37,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.updateUserInfo(); // 确保每次页面显示都更新数据
+    const app = getApp()
+      // 增加调试日志
+    console.log('[调试] 全局用户信息:', app.globalData.userInfo)
+    console.log('[调试] 本地存储用户信息:', wx.getStorageSync('userInfo'))
+    this.setData({
+      userInfo: app.globalData.userInfo || wx.getStorageSync('userInfo')
+    }, () => {
+      console.log('[调试] 当前用户信息:', this.data.userInfo)
+    })
   },
 
   /**
