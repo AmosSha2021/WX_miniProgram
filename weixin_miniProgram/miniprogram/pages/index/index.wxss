@@ -12,3 +12,11 @@ page {
   margin: 30rpx 10rpx 30rpx 10rpx;/*距离上下左右*/
   padding-left: 100rpx;
 }
+/* 添加picker样式 */
+.picker {
+  padding: 20rpx;
+  margin: 20rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+  color: #666;
+}

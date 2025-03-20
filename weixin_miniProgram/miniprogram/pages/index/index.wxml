@@ -24,5 +24,12 @@
     <text>欢迎参加年度户外活动...</text>
 </view>
 <image src="/images/hiking.jpg" mode=""/>
-
-<button size="default" type="primary" plain="true" bind:tap="handle_signup">报名</button>
+<picker 
+  mode="selector" 
+  range="{{activityTypes}}"
+  bindchange="bindActivityTypeChange">
+  <view class="picker">
+    当前选择：{{activityTypes[selectedActivityType] || '请选择活动类型'}}
+  </view>
+</picker>
+<button size="default" type="primary" plain="true" bind:tap="submitRegistration">报名</button>
