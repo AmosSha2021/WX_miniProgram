@@ -1,6 +1,6 @@
 <view class="login-container">
   <view class="logo-container">
-    <image class="logo" src="/images/logo.jpg" mode="heightFix" />
+    <image class="logo" src="/images/logo.jpg" mode="" />
   </view>
 
   <view class="login-parent-container">

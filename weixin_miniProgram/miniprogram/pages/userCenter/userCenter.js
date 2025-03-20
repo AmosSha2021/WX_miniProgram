@@ -39,12 +39,12 @@ Page({
   onShow() {
     const app = getApp()
       // 增加调试日志
-    console.log('[调试] 全局用户信息:', app.globalData.userInfo)
-    console.log('[调试] 本地存储用户信息:', wx.getStorageSync('userInfo'))
+    console.log('[调试] 我tabBar-全局用户信息:', app.globalData.userInfo)
+    console.log('[调试] 我tabBar-本地存储用户信息:', wx.getStorageSync('userInfo'))
     this.setData({
       userInfo: app.globalData.userInfo || wx.getStorageSync('userInfo')
     }, () => {
-      console.log('[调试] 当前用户信息:', this.data.userInfo)
+      console.log('[调试] 我tabBar-当前用户信息:', this.data.userInfo)
     })
   },
 

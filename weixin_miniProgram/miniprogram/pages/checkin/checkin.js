@@ -3,13 +3,27 @@ Page({
     latitude: 23.099994,
     longitude: 113.324520,
     markers: [],
-    locationInfo: {}
+    locationInfo: {},
+    userInfo: null // 全局获取用户基本信息
   },
 
   onLoad() {
     this.getLocation()
   },
-
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    const app = getApp()
+    // 增加调试日志
+    console.log('[调试] 打卡tabBar-全局用户信息:', app.globalData.userInfo)
+    console.log('[调试] 打卡tabBar-本地存储用户信息:', wx.getStorageSync('userInfo'))
+    this.setData({
+      userInfo: app.globalData.userInfo || wx.getStorageSync('userInfo')
+    }, () => {
+      console.log('[调试] 打卡tabBar-当前用户信息:', this.data.userInfo)
+    })
+  },
   // 获取实时定位
   getLocation() {
     const that = this

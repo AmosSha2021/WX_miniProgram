@@ -4,12 +4,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    userInfo: null // 确保已添加该数据字段
   },
   handle_signup(){
-    wx.redirectTo({
-      url: '/pages/login/login',
-    })
+    console.log(this.data.userInfo)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -29,7 +27,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    const app = getApp()
+    // 增加调试日志
+    console.log('[调试] 报名tabBar-全局用户信息:', app.globalData.userInfo)
+    console.log('[调试] 报名tabBar-本地存储用户信息:', wx.getStorageSync('userInfo'))
+    this.setData({
+      userInfo: app.globalData.userInfo || wx.getStorageSync('userInfo')
+    }, () => {
+      console.log('[调试] 报名tabBar-当前用户信息:', this.data.userInfo)
+    })
   },
 
   /**

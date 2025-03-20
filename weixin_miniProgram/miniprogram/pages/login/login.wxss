@@ -5,14 +5,17 @@
 
 .logo-container {
   height: 300rpx;
+  width: 100%; /* 新增宽度约束 */
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* 新增溢出隐藏 */
 }
 
 .logo {
-  height: 200rpx;
-  width: 200rpx;
+  height: 100%; /* 修改为充满容器 */
+  width: 100%; /* 修改为充满容器 */
+  object-fit: cover; /* 新增图片适配方式 */
 }
 
 .login-parent-container {

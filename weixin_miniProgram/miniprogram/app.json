@@ -32,7 +32,7 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "快速开始",
+        "text": "报名",
         "iconPath": "images/icons/home.png",
         "selectedIconPath": "images/icons/home-active.png"
       },
