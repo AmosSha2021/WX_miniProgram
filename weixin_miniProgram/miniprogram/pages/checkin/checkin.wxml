@@ -1,17 +1,15 @@
-<view class="map">
-  <!-- 地图容器 -->
-  <map 
-    id="map" 
-    longitude="{{longitude}}" 
-    latitude="{{latitude}}" 
-    scale="16"
-    markers="{{markers}}"
-    style="width: 100%; height: 1000rpx;">
-  </map>
-</view>
+<view class="container">
+  <!-- 圆形打卡按钮 -->
+  <view class="checkin-btn" bindtap="handleCheckIn">
+    <view class="btn-inner">
+      <text class="time">{{currentTime}}</text>
+      <text class="btn-text">点击打卡</text>
+    </view>
+  </view>
 
-<!-- 打卡按钮 -->
-<view class="btn-container">
-
-  <button type="primary" bindtap="handleCheckIn">立即打卡</button>
+  <!-- 打卡信息展示 -->
+  <view class="checkin-info" wx:if="{{checkinTime}}">
+    <text class="info-text">{{labelAddress}}{{currentAddress}}</text>
+    <text class="info-text">\n{{labelTime}}{{checkinTime}}</text>
+  </view>
 </view>

@@ -1,21 +1,56 @@
-/* pages/checkin/checkin.wxss */
-
-/* 地图容器样式 */
-map {
-  width: 100%;
-  height: 500rpx;
-  /* 新增下边距 */
-  margin-bottom: 10rpx;
-  margin-top: auto;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx;
 }
 
-/* 按钮容器样式 */
-.btn-container {
-  padding: 40rpx;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  box-sizing: border-box;
-  /* 新增上边距 */
+.checkin-btn {
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  background: #07C160;
+  box-shadow: 0 10rpx 30rpx rgba(7, 193, 96, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100rpx;
+  transition: transform 0.2s;
+}
+
+.checkin-btn:active {
+  transform: scale(0.95);
+}
+
+.btn-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  color: #fff;
+  font-size: 40rpx;
+  margin-bottom: 10rpx;
+}
+
+.btn-text {
+  color: #fff;
+  font-size: 40rpx;
   margin-top: 10rpx;
+}
+
+.checkin-info {
+  margin-top: 60rpx;
+  padding: 30rpx;
+  background: #f5f5f5;
+  border-radius: 16rpx;
+  width: 100%;
+}
+
+.info-text {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.6;
+  text-align: center;
 }
