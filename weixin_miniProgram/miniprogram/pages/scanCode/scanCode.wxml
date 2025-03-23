@@ -1,0 +1,42 @@
+<!--pages/scanCode/scanCode.wxml-->
+<view class="station-picker">
+  <picker 
+    mode="selector" 
+    range="{{groups}}"
+    bindchange="bindGroupChange">
+    <view class="picker">
+      当前小组：{{selectedGroup || '请选择小组'}}
+    </view>
+  </picker>
+  
+  <picker 
+    mode="selector" 
+    range="{{stations}}"
+    bindchange="bindStationChange">
+    <view class="picker">
+      当前站点：{{selectedStation || '请选择站点'}}
+    </view>
+  </picker>
+</view>
+
+<view class="scan-container">
+  <button 
+    bindtap="handleScanCode" 
+    type="primary" 
+    loading="{{scanLoading}}"
+    disabled="{{!selectedGroup || !selectedStation}}"
+  >
+    {{scanLoading ? '扫描中...' : '扫描运动员二维码'}}
+  </button>
+</view>
+
+<!-- 新增排名展示区域 -->
+<view class="ranking-list" wx:if="{{showRanking}}">
+  <view class="ranking-title">当前排名</view>
+  <block wx:for="{{rankings}}" wx:key="index">
+    <view class="ranking-item">
+      <text>第{{index + 1}}名：{{item.employeeID}}</text>
+      <text>总耗时：{{item.totalTime}}秒</text>
+    </view>
+  </block>
+</view>

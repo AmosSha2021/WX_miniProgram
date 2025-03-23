@@ -4,7 +4,8 @@
     "pages/index/index",
     "pages/userCenter/userCenter",
     "pages/checkin/checkin",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/scanCode/scanCode"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

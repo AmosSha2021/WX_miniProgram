@@ -59,7 +59,7 @@ Page({
           getApp().globalData.userInfo = userInfo;
           wx.setStorageSync('userInfo', userInfo);
 
-          wx.reLaunch({ url: '/pages/index/index' });
+          wx.reLaunch({ url: '/pages/scanCode/scanCode' });
         } else {
           wx.showToast({ title: res.result.message || '登录失败', icon: 'error' });
         }
