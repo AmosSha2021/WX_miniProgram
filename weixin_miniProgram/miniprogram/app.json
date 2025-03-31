@@ -5,7 +5,8 @@
     "pages/userCenter/userCenter",
     "pages/checkin/checkin",
     "pages/register/register",
-    "pages/scanCode/scanCode"
+    "pages/scanCode/scanCode",
+    "pages/statistical_data/statistical_data"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -31,14 +32,14 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "text": "报名",
+        "pagePath": "pages/scanCode/scanCode",
+        "text": "扫码打卡",
         "iconPath": "images/icons/home.png",
         "selectedIconPath": "images/icons/home-active.png"
       },
       {
-        "pagePath": "pages/checkin/checkin",
-        "text": "打卡",
+        "pagePath": "pages/statistical_data/statistical_data",
+        "text": "数据统计",
         "iconPath": "images/icons/examples.png",
         "selectedIconPath": "images/icons/examples-active.png"
       },

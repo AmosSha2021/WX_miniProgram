@@ -7,42 +7,31 @@
 
 .picker {
   padding: 20rpx;
-  background: #fff;
-  border-radius: 8rpx;
-  text-align: center;
+  margin: 20rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
   color: #666;
 }
 
-.scan-container {
-  padding: 40rpx;
-  text-align: center;
-}
-
+/* 按钮基础样式 */
 button {
-  width: 80%;
-  margin-top: 40rpx;
-}
-
-/* 新增排名样式 */
-.ranking-list {
-  margin: 40rpx;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
-}
-
-.ranking-title {
-  padding: 24rpx;
-  font-weight: bold;
-  background: #f5f5f5;
-  border-radius: 16rpx 16rpx 0 0;
-}
-
-.ranking-item {
   display: flex;
-  justify-content: space-between;
-  padding: 24rpx;
-  background: white;
-  border-bottom: 1rpx solid #eee;
+  align-items: center;
+  justify-content: center;
+  height: 80rpx;
+  margin: 20rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  background-color: transparent;
+  color: #666;
+  border: 1rpx solid #ccc;
+}
+
+/* 选中状态下的按钮样式 */
+button:not([disabled]) {
+  background-color: #07C160;
+  color: white;
+  border: none;
 }
 
 /* 禁用状态按钮样式 */
@@ -54,6 +43,7 @@ button[disabled] {
 button[loading] {
   position: relative;
 }
+
 button[loading]::after {
   content: '';
   position: absolute;
@@ -70,3 +60,178 @@ button[loading]::after {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.station-details {
+  padding: 20rpx;
+}
+
+.detail-card {
+  margin: 20rpx;
+  padding: 15rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.1);
+}
+
+.employee-id {
+  font-weight: bold;
+  color: #1890ff;
+  margin-bottom: 10rpx;
+}
+
+.current-station, .prev-station {
+  margin: 10rpx 0;
+  padding: 10rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+}
+
+.info-line {
+  display: block;
+  margin: 8rpx 0;
+  padding: 5rpx 0;
+}
+
+/* 新增按钮组样式 */
+.button-group {
+  display: flex;
+  margin: 20rpx;
+  gap: 20rpx;
+}
+
+.button-group button {
+  flex: 1;
+}
+
+/* 查询结果表格样式 */
+.query-results {
+  margin: 20rpx;
+  border-radius: 12rpx;
+  background: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.result-header {
+  padding: 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.record-list {
+  padding: 0 20rpx;
+}
+
+.record-item {
+  padding: 20rpx 0;
+}
+
+.record-row {
+  display: flex;
+  margin-bottom: 12rpx;
+}
+
+.record-label {
+  width: 140rpx;
+  color: #666;
+  font-size: 26rpx;
+}
+
+.record-value {
+  flex: 1;
+  color: #333;
+  font-size: 26rpx;
+}
+
+.divider {
+  height: 1rpx;
+  background: #f5f5f5;
+  margin: 16rpx 0;
+}
+
+.result-title {
+  font-weight: bold;
+  margin-bottom: 15rpx;
+  font-size: 30rpx;
+}
+
+.result-table {
+  width: 100%;
+  border: 1rpx solid #eaeaea;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.table-row {
+  display: flex;
+}
+
+.table-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.table-header, 
+.table-cell {
+  flex: 1;
+  padding: 15rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #eaeaea;
+}
+
+/* 新增运动员信息样式 */
+.employee-info {
+  margin: 20rpx;
+  padding: 20rpx;
+  background: #f9f9f9;
+  border-radius: 8rpx;
+}
+
+.employee-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  display: block;
+}
+
+.employee-id {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 新增打卡记录列表样式 */
+.record-list {
+  margin: 20rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.1);
+}
+
+.list-title {
+  padding: 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  border-bottom: 1rpx solid #eee;
+}
+
+.record-item {
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.station {
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.time-info text {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 原有排名区域样式保持不变 */
