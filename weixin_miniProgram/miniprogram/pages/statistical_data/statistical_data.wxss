@@ -1,1 +1,95 @@
 /* pages/statistical_data/statistical_data.wxss */
+/* 页面基础样式 */
+page {
+  background-color: #f8fafc;
+  padding: 0;
+}
+
+/* 统计区块容器 */
+.stat-section {
+  margin: 20rpx 0; /* 去掉左右外边距 */
+  width: 100%; /* 强制宽度充满容器 */
+  box-sizing: border-box; /* 包含内边距 */
+}
+
+/* 调整表格内边距 */
+.table-header,
+.table-row {
+  padding: 28rpx 40rpx; /* 增加左右内边距 */
+}
+
+/* 表格通用样式 */
+.table-header,
+.table-row {
+  display: flex;
+  padding: 28rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* 列宽分配 */
+.table-header text,
+.table-row text {
+  flex: 1;
+  min-width: 0;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 表头样式 */
+.table-header {
+  background-color: #f8fafc;
+}
+.table-header text {
+  font-weight: 500;
+  color: #1890ff;
+}
+
+/* 数据列特定样式 */
+.table-row text:nth-child(1) { flex-basis: 5%; } /* 排名 */
+.table-row text:nth-child(2) { flex-basis: 10%; } /* 工号 */
+.table-row text:nth-child(3) { flex-basis: 36%; } /* 姓名 */
+.table-row text:nth-child(4) { 
+  flex-basis: 30%;
+  text-align: right;
+  color: #52c41a;
+}
+
+/* 分组标题 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  padding: 28rpx 30rpx 20rpx;
+  border-bottom: 2rpx solid #1890ff;
+}
+
+/* 最后一行去除边框 */
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row text:nth-child(1) { flex-basis: 15%; } /* 排名 */
+.table-row text:nth-child(2) { flex-basis: 20%; } /* 组别 */
+.table-row text:nth-child(3) { flex-basis: 25%; } /* 工号 */
+.table-row text:nth-child(4) { flex-basis: 25%; } /* 姓名 */
+.table-row text:nth-child(5) { 
+  flex-basis: 15%;
+  text-align: right;
+  color: #666;
+}
+
+.group-block {
+  margin: 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.1);
+}
+
+.group-title {
+  font-size: 32rpx;
+  color: #1890ff;
+  padding: 20rpx;
+  border-bottom: 2rpx solid #eee;
+}

@@ -1,2 +1,48 @@
 <!--pages/statistical_data/statistical_data.wxml-->
-<text>pages/statistical_data/statistical_data.wxml</text>
+<view class="container">
+  <!-- 小组排名 -->
+  <block wx:for="{{groupRankings}}" wx:key="group">
+    <view class="stat-section">
+      <view class="section-title">{{item.group}}排名</view>
+      
+      <!-- 表头 -->
+      <view class="table-header">
+        <text>排名</text>
+        <text>工号</text>
+        <text>姓名</text>
+        <text>总用时</text>
+      </view>
+
+      <!-- 数据行 -->
+      <block wx:for="{{item.members}}" wx:key="employeeID">
+        <view class="table-row">
+          <text>{{index + 1}}</text>
+          <text>{{item.employeeID}}</text>
+          <text>{{item.name}}</text>
+          <text>{{item.totalTime}}</text>
+        </view>
+      </block>
+    </view>
+  </block>
+
+  <!-- 全局排名 -->
+  <view class="stat-section">
+    <view class="section-title">全员排行榜</view>
+    
+    <view class="table-header">
+      <text>排名</text>
+      <text>工号</text>
+      <text>姓名</text>
+      <text>总用时</text>
+    </view>
+
+    <block wx:for="{{totalRankings}}" wx:key="employeeID">
+      <view class="table-row">
+        <text>{{index + 1}}</text>
+        <text>{{item.employeeID}}</text>
+        <text>{{item.name}}</text>
+        <text>{{item.totalTime}}</text>
+      </view>
+    </block>
+  </view>
+</view>
