@@ -14,13 +14,17 @@ Page({
 
   bindGroupChange(e) {
     this.setData({
-      selectedGroup: this.data.groups[e.detail.value]
+      selectedGroup: this.data.groups[e.detail.value],
+      allRecords: [], // 清空存储所有打卡记录
+      currentEmployee: null // 清空当前扫描的运动员
     });
   },
 
   bindStationChange(e) {
     this.setData({
-      selectedStation: this.data.stations[e.detail.value]
+      selectedStation: this.data.stations[e.detail.value],
+      allRecords: [], // 清空存储所有打卡记录
+      currentEmployee: null // 清空当前扫描的运动员
     });
   },
 
@@ -31,140 +35,33 @@ Page({
       return wx.showToast({ 
         title: '请先选择小组和站点', 
         icon: 'none' 
-      })
+      });
     }
 
     this.setData({ scanLoading: true });
 
     try {
-      const scanResult = await wx.scanCode({ onlyFromCamera: true });
-      const employeeID = scanResult.result;
+      const { result: employeeID } = await wx.scanCode({ onlyFromCamera: true });
       const db = wx.cloud.database();
       const _ = db.command;
-      let currentTime = new Date();
+      const currentTime = new Date();
       const currentIndex = this.data.stations.indexOf(selectedStation);
 
-      // 获取运动员基本信息
-      const employeeRes = await db.collection('employees').doc(employeeID).get();
-      if (!employeeRes.data) {
-        throw new Error('未找到该运动员信息');
-      }
-
-      // 严格顺序检查（新增逻辑）
-      if (currentIndex > 0) {
-        // 检查前面所有站点是否已完成
-        for (let i = 0; i < currentIndex; i++) {
-          const stationCheck = await db.collection('checkpoints')
-            .where({
-              employeeID,
-              groupID: selectedGroup,
-              stationIndex: i
-            })
-            .get();
-          
-          if (stationCheck.data.length === 0) {
-            throw new Error(`请先完成${this.data.stations[i]}打卡`);
-          }
-        }
-
-        // 获取上一站记录
-        const prevStationIndex = currentIndex - 1;
-        const prevStationCheck = await db.collection('checkpoints')
-          .where({
-            employeeID,
-            groupID: selectedGroup,
-            stationIndex: prevStationIndex,
-            checkoutTime: _.eq(null)
-          })
-          .get();
-
-        if (prevStationCheck.data.length > 0) {
-          const prevRecord = prevStationCheck.data[0];
-          // 自动完成上一站checkout
-          await db.collection('checkpoints')
-            .doc(prevRecord._id)
-            .update({
-              data: {
-                checkoutTime: currentTime,
-                timeCost: (currentTime - prevRecord.checkinTime) / 1000,
-                nextStation: selectedStation
-              }
-            });
-        }
-      }
-
-      // 检查当前站点是否已存在记录（新增严格检查）
-      const stationCheck = await db.collection('checkpoints')
-        .where({
-          employeeID,
-          groupID: selectedGroup,
-          currentStation: selectedStation,
-          $or: [
-            { checkinTime: _.neq(null) },
-            { checkoutTime: _.neq(null) }
-          ]
-        })
-        .get();
-
-      if (stationCheck.data.length > 0) {
-        throw new Error(`您已经完成${selectedStation}打卡`);
-      }
-
-      // 获取最新打卡记录
-      const latestRecord = await db.collection('checkpoints')
-        .where({ employeeID, groupID: selectedGroup })
-        .orderBy('checkinTime', 'desc')
-        .limit(1)
-        .get();
-
-      // 计算下一站
-      const nextStation = currentIndex < this.data.stations.length - 1 
-        ? this.data.stations[currentIndex + 1] 
-        : null;
-
-      // 创建或更新记录
-      if (latestRecord.data.length > 0 && currentIndex > 0) {
-        const lastRecord = latestRecord.data[0];
-        const timeCost = (currentTime - lastRecord.checkinTime) / 1000;
-        
-        // 更新上一站记录
-        await db.collection('checkpoints')
-          .doc(lastRecord._id)
-          .update({
-            data: {
-              checkoutTime: currentTime,
-              timeCost: timeCost,
-              nextStation: selectedStation
-            }
-          });
-      }
-
-      // 创建当前站记录
-      await db.collection('checkpoints').add({
-        data: {
-          _id: `${employeeID}_${currentIndex}_${Date.now()}`, // 添加时间戳确保唯一性
-          employeeID,
-          groupID: selectedGroup,
-          currentStation: selectedStation,
-          stationIndex: currentIndex,
-          checkinTime: currentTime,
-          checkoutTime: selectedStation === '终点' ? currentTime : null,
-          nextStation: nextStation,
-          timeCost: 0,
-          employeeName: employeeRes.data.name,
-          createdAt: db.serverDate() // 添加创建时间
-        }
+      // 核心业务流程
+      const employeeData = await this.getEmployeeInfo(employeeID);
+      await this.validateCheckpointRules(employeeID, selectedGroup, currentIndex, currentTime);
+      await this.createCheckpointRecord({
+        employeeID,
+        group: selectedGroup,
+        stationIndex: currentIndex,
+        currentTime,
+        nextStation: this.getNextStation(currentIndex),
+        employeeData
       });
-
-      await this.calculateRankings();
-      wx.showToast({ title: '打卡成功' });
       
-      // 获取运动员信息并存储
-      this.setData({ currentEmployee: employeeRes.data });
-      // 新增查询最新记录功能
-      //await this.queryLatestRecord(employeeID);
-      // 打卡成功后查询所有记录
-      await this.queryAllRecords(employeeID);
+      // 更新界面数据
+      await this.updatePostScanData(employeeID, employeeData);
+      wx.showToast({ title: '打卡成功' });
     } catch (err) {
       wx.showModal({
         title: '操作失败',
@@ -174,39 +71,110 @@ Page({
     } finally {
       this.setData({ scanLoading: false });
     }
-},
+  },
 
-// 新增查询最新记录函数
-async queryLatestRecord(employeeID) {
-  const db = wx.cloud.database();
-  const res = await db.collection('checkpoints')
-    .where({
-      employeeID: employeeID,
-      groupID: this.data.selectedGroup,
-      currentStation: this.data.selectedStation
-    })
-    .orderBy('checkinTime', 'desc')
-    .get();  // 移除limit(1)以获取所有记录
-  
-  if (res.data.length > 0) {
-    this.setData({
-      queryRecords: res.data.map(record => ({
-        employeeID: record.employeeID,
-        employeeName: record.employeeName,
-        checkinTime: this.formatTime(record.checkinTime),
-        checkoutTime: record.checkoutTime ? this.formatTime(record.checkoutTime) : '尚未离开',
-        timeCost: record.timeCost || '--'
-      }))
-    });
-  } else {
-    this.setData({ queryRecords: [] });
-    wx.showToast({
-      title: '未找到打卡记录',
-      icon: 'none'
-    });
-  }
-},
+  // 新增工具方法 -------------------------------------------------
+  async getEmployeeInfo(employeeID) {
+    const res = await wx.cloud.database().collection('employees').doc(employeeID).get();
+    if (!res.data) throw new Error('未找到该运动员信息');
+    return res.data;
+  },
 
+  async validateCheckpointRules(employeeID, group, currentIndex, currentTime) {
+    if (currentIndex > 0) {
+      await this.validatePreviousCheckpoints(employeeID, group, currentIndex);
+      await this.autoCheckoutPrevious(employeeID, group, currentIndex, currentTime);
+    }
+    await this.checkCurrentCheckpoint(employeeID, group, currentIndex);
+  },
+
+  async validatePreviousCheckpoints(employeeID, group, currentIndex) {
+    const db = wx.cloud.database();
+    for (let i = 0; i < currentIndex; i++) {
+      const records = await db.collection('checkpoints')
+        .where({ employeeID, groupID: group, stationIndex: i })
+        .get();
+      if (records.data.length === 0) {
+        throw new Error(`请先完成[${this.data.stations[i]}]打卡`);
+      }
+    }
+  },
+
+  async autoCheckoutPrevious(employeeID, group, currentIndex, currentTime) {
+    const db = wx.cloud.database();
+    const prevIndex = currentIndex - 1;
+    const prevRecords = await db.collection('checkpoints')
+      .where({ 
+        employeeID,
+        groupID: group,
+        stationIndex: prevIndex,
+        checkoutTime: db.command.eq(null)
+      })
+      .get();
+
+    if (prevRecords.data.length > 0) {
+      const record = prevRecords.data[0];
+      await db.collection('checkpoints').doc(record._id).update({
+        data: {
+          checkoutTime: currentTime,
+          timeCost: (currentTime - record.checkinTime) / 1000,
+          nextStation: this.data.stations[currentIndex]
+        }
+      });
+    }
+  },
+
+  async checkCurrentCheckpoint(employeeID, group, currentIndex) {
+    const currentStation = this.data.stations[currentIndex];
+    const records = await wx.cloud.database().collection('checkpoints')
+      .where({
+        employeeID,
+        groupID: group,
+        currentStation,
+        $or: [
+          { checkinTime: wx.cloud.database().command.neq(null) },
+          { checkoutTime: wx.cloud.database().command.neq(null) }
+        ]
+      })
+      .get();
+
+    if (records.data.length > 0) {
+      throw new Error(`您已经完成${currentStation}打卡`);
+    }
+  },
+
+  getNextStation(currentIndex) {
+    return currentIndex < this.data.stations.length - 1 
+      ? this.data.stations[currentIndex + 1] 
+      : null;
+  },
+
+  async createCheckpointRecord(params) {
+    const { employeeID, group, stationIndex, currentTime, nextStation, employeeData } = params;
+    await wx.cloud.database().collection('checkpoints').add({
+      data: {
+        _id: `${employeeID}_${stationIndex}_${Date.now()}`,
+        employeeID,
+        groupID: group,
+        currentStation: this.data.stations[stationIndex],
+        stationIndex,
+        checkinTime: currentTime,
+        checkoutTime: stationIndex === this.data.stations.length - 1 ? currentTime : null,
+        nextStation,
+        timeCost: 0,
+        employeeName: employeeData.name,
+        createdAt: wx.cloud.database().serverDate()
+      }
+    });
+  },
+
+  async updatePostScanData(employeeID, employeeData) {
+    this.setData({ currentEmployee: employeeData });
+    await Promise.all([
+      //this.calculateRankings(),
+      this.queryAllRecords(employeeID)
+    ]);
+  },
 // 新增：查询所有打卡记录
 async queryAllRecords(employeeID) {
   const res = await wx.cloud.database().collection('checkpoints')
