@@ -34,8 +34,8 @@
       {
         "pagePath": "pages/scanCode/scanCode",
         "text": "扫码打卡",
-        "iconPath": "images/icons/home.png",
-        "selectedIconPath": "images/icons/home-active.png"
+        "iconPath": "images/scan.png",
+        "selectedIconPath": "images/selected_scan.png"
       },
       {
         "pagePath": "pages/statistical_data/statistical_data",
