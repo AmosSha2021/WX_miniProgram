@@ -34,6 +34,6 @@ def get_qr_code_image(source: str, data: str) -> None:
 
 if __name__ == '__main__':
     source_path = r'code_img'
-    data = '12332'
+    data = '16351'
     get_qr_code_image(source_path, data)
 
